@@ -1,16 +1,55 @@
-export const App = () => {
+import TacoItem from './TacoItem';
+
+const App = () => {
+  const tacos = [
+    {
+      id: 1,
+      imageUrl:
+        'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?dpr=2&h=480&w=640',
+      productPrice: 10.99,
+      showDiscount: true,
+    },
+    {
+      id: 2,
+      imageUrl:
+        'https://images.pexels.com/photos/461198/pexels-photo-461199.jpeg?dpr=2&h=480&w=640',
+      productPrice: 9.78,
+      showDiscount: false,
+    },
+    {
+      id: 3,
+      imageUrl:
+        'https://images.pexels.com/photos/461198/pexels-photo-461197.jpeg?dpr=2&h=480&w=640',
+      productPrice: 6.36,
+      showDiscount: true,
+    },
+  ];
+
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
+    <>
+      {tacos.map(taco => {
+        return (
+          <TacoItem
+            key={taco.id}
+            imageUrl={taco.imageUrl}
+            productPrice={taco.productPrice}
+            showDiscount={taco.showDiscount}
+          />
+        );
+      })}
+
+      {/* {tacos.map((imageUrl, id, productPrice, showDiscount) => {
+        return (
+          <TacoItem
+           key={id}
+            imageUrl={imageUrl}
+            productPrice={productPrice}
+            showDiscount={showDiscount}
+          />
+        );
+      })} */}
+    </>
   );
 };
+
+export { App };
