@@ -59,4 +59,11 @@ ReactDOM.createRoot(document.getElementById('app')).render(
           />
         );
       })}
+
+
+   STYLING!
+   
+   1. npm i sass
+   2. Створити файл [ComponentName].scss
+   3. Імпортувати цей файл до вашого компонента -> import './[ComponentName].scss'
  */

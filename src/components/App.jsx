@@ -1,4 +1,4 @@
-import TacoItem from './TacoItem';
+import TacoItem from './TacoItem/TacoItem';
 
 const App = () => {
   const tacos = [
@@ -12,14 +12,14 @@ const App = () => {
     {
       id: 2,
       imageUrl:
-        'https://images.pexels.com/photos/461198/pexels-photo-461199.jpeg?dpr=2&h=480&w=640',
+      'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?dpr=2&h=480&w=640',
       productPrice: 9.78,
       showDiscount: false,
     },
     {
       id: 3,
       imageUrl:
-        'https://images.pexels.com/photos/461198/pexels-photo-461197.jpeg?dpr=2&h=480&w=640',
+      'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?dpr=2&h=480&w=640',
       productPrice: 6.36,
       showDiscount: true,
     },
@@ -37,17 +37,6 @@ const App = () => {
           />
         );
       })}
-
-      {/* {tacos.map((imageUrl, id, productPrice, showDiscount) => {
-        return (
-          <TacoItem
-           key={id}
-            imageUrl={imageUrl}
-            productPrice={productPrice}
-            showDiscount={showDiscount}
-          />
-        );
-      })} */}
     </>
   );
 };

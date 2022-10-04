@@ -1,0 +1,14 @@
+.taco-item {
+    margin: 8px;
+    padding: 12px 16px;
+    color: var(--primary-color);
+}
+
+.paddings {
+    padding: 30px;
+}
+
+.tacoItem {
+    composes: taco-item;
+    composes: paddings;
+}
