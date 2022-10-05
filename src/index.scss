@@ -1,7 +1,13 @@
 @import-normalize; /* bring in normalize.css styles */
 
 :root {
-  --primary-color: #494949;
+  --primary-color: #0f0f0f;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
 }
 
 body {
@@ -18,7 +24,13 @@ code {
     monospace;
 }
 
+.container {
 
+}
+
+.btn {
+  
+}
 /* ul {
   display: flex;
   justify-content: center;

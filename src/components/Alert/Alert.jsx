@@ -13,8 +13,8 @@ export const Alert = ({
   return (
     <p
       className={cn(s.alert, s[variant], {
-        [s.outlined]: outlined !== false && outlined > 9,
-        [s.textCenter]: textCenter !== false && textCenter > 9,
+        [s.outlined]: outlined,
+        [s.textCenter]: textCenter,
       })}
     >
       {/* "alert success outlined? textCenter?" */}
