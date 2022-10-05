@@ -54,7 +54,7 @@ class App extends Component {
     this.setState((prevState) => {
       return {
         ...prevState,
-        tacos: prevState.tacos.filter(taco => taco.id !== tacoId)
+        tacos: prevState.tacos.filter(taco => taco.id !== tacoId)// tacoId = 2 [{id: 1},{id: 2}, {id: 3}] -> [{id: 1}, {id: 3}]
       }
     })
   }
