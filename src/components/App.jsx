@@ -1,46 +1,22 @@
 import { Component } from 'react';
+import { nanoid } from 'nanoid'
 import { tacosData } from 'utils/helpers';
+import TacoForm from './TacoForm/TacoForm';
 import TacoItem from './TacoItem/TacoItem';
 
 class App extends Component {
   state = {
     tacos: tacosData ?? [],
-    count: 0,
-  };
-
-  handleIncrement = () => {
-    if (this.state.count >= 100) return;
-
-    this.setState(prevState => {
-      return {
-        count: prevState.count + 1,
-      };
-    });
-
-    // {count: 0, count: 0 + 1} -> { count: 1 }
-  };
-
-  handleDecrement = () => {
-    if (this.state.count === 0) return;
-
-    this.setState(prevState => {
-      return {
-        count: prevState.count - 1,
-      };
-    });
-
-    // {count: 0, count: 0 + 1} -> { count: 1 }
   };
 
   onToggleDiscount = tacoId => {
     this.setState(prevState => {
       return {
-        ...prevState,
         tacos: prevState.tacos.map(taco => {
           if (taco.id === tacoId) {
             return {
               ...taco,
-              showDiscount: !taco.showDiscount,
+              discount: !taco.discount,
             };
           }
 
@@ -50,29 +26,31 @@ class App extends Component {
     });
   };
 
-  onDeleteTaco = (tacoId) => {
-    this.setState((prevState) => {
+  onDeleteTaco = tacoId => {
+    this.setState(prevState => {
+      console.log('prevState: ', prevState.tacos); // [{id: 1}, {id: 2}, {id: 3}]
       return {
-        ...prevState,
-        tacos: prevState.tacos.filter(taco => taco.id !== tacoId)// tacoId = 2 [{id: 1},{id: 2}, {id: 3}] -> [{id: 1}, {id: 3}]
-      }
-    })
-  }
+        tacos: prevState.tacos.filter(taco => taco.id !== tacoId), // tacoId = 2 [{id: 1}, {id: 2}, {id: 3}] -> [{id: 1}, {id: 3}]
+      };
+    });
+  };
+
+  onAddTaco = data => {
+    // data - це об'єкт taco
+    const taco = {
+      id: nanoid(),
+      ...data,
+    };
+
+    this.setState(prevState => ({ tacos: [taco, ...prevState.tacos] }));
+  };
 
   render() {
-    const { count, tacos } = this.state;
+    const { tacos } = this.state;
 
     return (
       <>
-        {this.state.count === 100 && (
-          <h2>You reached the limit of tacos! Stop!</h2>
-        )}
-        <div>
-          <button onClick={this.handleIncrement}>+</button>
-          <h3>Count: {count}</h3>
-          <button onClick={this.handleDecrement}>-</button>
-        </div>
-
+        <TacoForm onAddTaco={this.onAddTaco} />
         {tacos.map(taco => {
           return (
             <TacoItem
