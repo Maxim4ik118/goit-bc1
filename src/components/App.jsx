@@ -1,70 +1,80 @@
 import { Component } from 'react';
-import { nanoid } from 'nanoid'
-import { tacosData } from 'utils/helpers';
-import TacoForm from './TacoForm/TacoForm';
-import TacoItem from './TacoItem/TacoItem';
+import { postsRequest } from 'services/api';
+import Loader from './Loader/Loader';
+import PostList from './PostList/PostList';
 
 class App extends Component {
   state = {
-    tacos: tacosData ?? [],
+    posts: [],
+    isLoading: false,
+    error: '',
+    page: 1,
   };
 
-  onToggleDiscount = tacoId => {
+  onDeletePost = postId => {
     this.setState(prevState => {
       return {
-        tacos: prevState.tacos.map(taco => {
-          if (taco.id === tacoId) {
-            return {
-              ...taco,
-              discount: !taco.discount,
-            };
-          }
-
-          return taco;
-        }),
+        posts: prevState.posts.filter(post => post.id !== postId), // tacoId = 2 [{id: 1}, {id: 2}, {id: 3}] -> [{id: 1}, {id: 3}]
       };
     });
   };
 
-  onDeleteTaco = tacoId => {
-    this.setState(prevState => {
-      console.log('prevState: ', prevState.tacos); // [{id: 1}, {id: 2}, {id: 3}]
-      return {
-        tacos: prevState.tacos.filter(taco => taco.id !== tacoId), // tacoId = 2 [{id: 1}, {id: 2}, {id: 3}] -> [{id: 1}, {id: 3}]
-      };
-    });
+  onNextPage = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
   };
 
-  onAddTaco = data => {
-    // data - це об'єкт taco
-    const taco = {
-      id: nanoid(),
-      ...data,
-    };
+  // handleResizeScreen = e => {
+  //   console.log(window.innerWidth);
+  // };
 
-    this.setState(prevState => ({ tacos: [taco, ...prevState.tacos] }));
+  fetchPosts = async () => {
+    try {
+      // Встановлюємо індикатор завантаження та обнуляємо помилку, якщо була
+      this.setState({ isLoading: true, error: '' });
+
+      const postsData = await postsRequest();
+
+      this.setState({ posts: postsData });
+    } catch (err) {
+      this.setState({ error: err.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
+
+  componentDidMount() {
+    // window.addEventListener('resize', this.handleResizeScreen);
+
+    this.fetchPosts();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.page !== this.state.page) {
+      // prevState.page -> 1; this.state.page -> 2;
+      console.log(`Page is changed to: ${this.state.page}`);
+      // Запит на сервер з данними з нової сторінки
+    }
+  }
+
+  componentWillUnmount() {
+    // window.removeEventListener('resize', this.handleResizeScreen);
+    // clearInterval()
+    // clearTimeout()
+  }
 
   render() {
-    const { tacos } = this.state;
+    const { posts, error, isLoading } = this.state;
 
     return (
       <>
-        <TacoForm onAddTaco={this.onAddTaco} />
-        {tacos.map(taco => {
-          return (
-            <TacoItem
-              key={taco.id}
-              // id={taco.id}
-              // imageUrl={taco.imageUrl}
-              // productPrice={taco.productPrice}
-              // showDiscount={taco.showDiscount}
-              {...taco}
-              onToggleDiscount={this.onToggleDiscount}
-              onDeleteTaco={this.onDeleteTaco}
-            />
-          );
-        })}
+        {error && <p className="error">Some error occured: {error}</p>}
+        {isLoading && <Loader />}
+        <PostList posts={posts} onDeletePost={this.onDeletePost} />
+        <button className="btn" onClick={this.onNextPage}>
+          Next page
+        </button>
       </>
     );
   }

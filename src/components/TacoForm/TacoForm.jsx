@@ -12,8 +12,6 @@ export default class TacoForm extends Component {
   state = { ...INITIAL_FORM_DATA };
 
   handleChange = event => {
-    console.log(event.target.name); // "name" | "price" | "discount"
-
     if (event.target.type === 'checkbox') {
       this.setState(prevState => ({
         [event.target.name]: !prevState[event.target.name], // false -> true
@@ -25,12 +23,6 @@ export default class TacoForm extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
-    // this.setState(prevState => ({
-    //   [event.target.name]:
-    //     event.target.type === 'checkbox'
-    //       ? !prevState[event.target.name]
-    //       : event.target.value,
-    // }));
   };
 
   handleSubmit = event => {
@@ -49,6 +41,10 @@ export default class TacoForm extends Component {
 
   reset() {
     this.setState({ ...INITIAL_FORM_DATA });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log("Form is updated");
   }
 
   render() {

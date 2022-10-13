@@ -18,7 +18,7 @@ export const Alert = ({
       })}
     >
       {/* "alert success outlined? textCenter?" */}
-      {children}
+      😍{children}
     </p>
   );
 };
