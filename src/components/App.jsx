@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { postsRequest } from 'services/api';
 import Loader from './Loader/Loader';
+import Modal from './Modal/Modal';
 import PostList from './PostList/PostList';
 
 class App extends Component {
@@ -8,6 +9,10 @@ class App extends Component {
     posts: [],
     isLoading: false,
     error: '',
+    modal: {
+      isVisible: false,
+      data: null,
+    },
     page: 1,
   };
 
@@ -25,6 +30,23 @@ class App extends Component {
     }));
   };
 
+  onModalOpen = ({ title, body }) => {
+    this.setState({
+      modal: {
+        isVisible: true,
+        data: { title, body },
+      },
+    });
+  };
+
+  onModalClose = () => {
+    this.setState({
+      modal: {
+        isVisible: false,
+        data: null,
+      },
+    });
+  };
   // handleResizeScreen = e => {
   //   console.log(window.innerWidth);
   // };
@@ -36,7 +58,9 @@ class App extends Component {
 
       const postsData = await postsRequest();
 
-      this.setState({ posts: postsData });
+      this.setState(prevState => ({
+        posts: [...prevState.posts, ...postsData],
+      }));
     } catch (err) {
       this.setState({ error: err.message });
     } finally {
@@ -65,17 +89,32 @@ class App extends Component {
   }
 
   render() {
-    const { posts, error, isLoading } = this.state;
+    const {
+      posts,
+      error,
+      isLoading,
+      modal: { isVisible, data },
+    } = this.state;
 
     return (
-      <>
+      <div className="app">
         {error && <p className="error">Some error occured: {error}</p>}
         {isLoading && <Loader />}
-        <PostList posts={posts} onDeletePost={this.onDeletePost} />
+        <PostList
+          posts={posts}
+          onDeletePost={this.onDeletePost}
+          onModalOpen={this.onModalOpen}
+        />
         <button className="btn" onClick={this.onNextPage}>
           Next page
         </button>
-      </>
+        {isVisible && (
+          <Modal onClose={this.onModalClose}>
+            <h2>{data.title}</h2>
+            <p>{data.body}</p>
+          </Modal>
+        )}
+      </div>
     );
   }
 }

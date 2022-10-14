@@ -3,8 +3,8 @@ export const postsRequest = async () => {
 
   // Цей блок потрібен тільки тоді, коли ви працюєте з fetch, якщо ви 
   // використовуєте axios, цей блок можна пропустити
-  if(!response.status) { 
-    throw new Error(response);
+  if(!response.ok) { 
+    throw new Error('Upss, some error occured:' + response);
   }
         
   return await response.json();

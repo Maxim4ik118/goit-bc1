@@ -1,0 +1,30 @@
+.backdrop {
+    background-color: rgba(0, 0, 0, 0.257);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+
+    .modal {
+        min-width: 250px;
+        max-width: 80%;
+        width: 100%;
+        min-height: 350px;
+        background-color: #fff;
+        position: relative;
+        padding: 33px;
+        cursor: auto;
+        box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.75);
+    }
+    .closeBtn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+    }
+}
